@@ -12,7 +12,5 @@ cd /usr/local/src/nginx-1.13.0 &&\
 apk del g++ pcre-dev zlib-dev openssl-dev make &&\
 rm -rf /usr/local/src
 
-WORKDIR /
-
 EXPOSE 80
 EXPOSE 443
