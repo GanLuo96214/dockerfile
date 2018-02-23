@@ -4,7 +4,7 @@ ENV NGINX_HOME /usr/local/nginx/1.13.0
 ENV NGINX_BIN ${NGINX_HOME}/sbin
 ENV PATH ${PATH}:${NGINX_BIN}
 RUN \
-apk update && apk add g++ pcre-dev zlib-dev openssl-dev curl make &&\
+apk update && apk add g++ pcre pcre-dev zlib-dev openssl openssl-dev curl make &&\
 mkdir -p /usr/local/src && cd /usr/local/src &&\
 curl -LO http://nginx.org/download/nginx-1.13.0.tar.gz && tar -xf nginx-1.13.0.tar.gz &&\
 cd /usr/local/src/nginx-1.13.0 &&\
