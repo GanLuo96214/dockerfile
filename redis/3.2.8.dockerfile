@@ -1,27 +1,18 @@
-FROM centos
+FROM alpine
 LABEL maintainer="ganluo960214@outlook.com"
 
 ENV REDIS_HOME /usr/local/redis/3.2.8
 ENV REDIS_BIN ${REDIS_HOME}/bin
 ENV PATH ${PATH}:${REDIS_BIN}
 RUN \
-yum install gcc gcc-c++ make -y;
-
-WORKDIR /usr/local/src/redis
-RUN \
-curl -LO http://download.redis.io/releases/redis-3.2.8.tar.gz && tar -xf redis-3.2.8.tar.gz;
-
-WORKDIR /usr/local/src/redis/redis-3.2.8
-RUN \
-make PREFIX=/usr/local/redis/3.2.8/ install;
-
-WORKDIR /etc/redis/
-RUN \
-cp /usr/local/src/redis/redis-3.2.8/redis.conf /etc/redis/;
-
-# clear src
-WORKDIR /usr/local/src/
-RUN \
-rm -rf ./*
+apk update && apk add  gcc make curl libc-dev linux-headers ;\
+mkdir -p /usr/local/src/redis && cd /usr/local/src/redis ;\
+curl -LO http://download.redis.io/releases/redis-3.2.8.tar.gz && tar -xf redis-3.2.8.tar.gz;\
+cd /usr/local/src/redis/redis-3.2.8 ;\
+make -j PREFIX=${REDIS_HOME} install;\
+cp /usr/local/src/redis/redis-3.2.8/redis.conf /etc/redis/;\
+rm -rf /usr/local/src/;\
+apk del gcc make curl libc-dev linux-headers;\
+cd /;
 
 EXPOSE 6379
